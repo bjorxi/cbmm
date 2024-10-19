@@ -1,0 +1,117 @@
+html {
+  margin: 0;
+  padding: 0;
+  width: 700px;
+  height: 600px;
+  font-family: 'Courier New', monospace;
+  font-size: 20px;
+  color: #000;
+  line-height: 1.5;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+div.section-divider {
+  border-top: 1px solid #000;
+  margin: 10px 0;
+}
+
+div#header {
+  position: sticky;
+  top: 0;
+  background: #e5e5e5;
+}
+
+div#filter {
+  padding: 10px;
+}
+
+input#filter {
+  width: 100%;
+  height: 35px;
+  line-height: 1;
+  font-size: 15px;
+  padding: 10px 5px;
+}
+
+div#tab {
+  width: 100%;
+  margin: 0;
+  padding: 10px;
+
+}
+
+div#tab-title {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+div#tab-title span {
+  display: inline-block;
+  width: 10%;
+}
+
+input#tab-title {
+  width: 80%;
+  height: 20px;
+  font-size: 15px;
+  padding: 10px 5px;
+}
+
+input#tab-folder {
+  width: 80%;
+  height: 20px;
+  font-size: 15px;
+  padding: 10px 5px;
+}
+
+div#tab-folder {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
+div#bookmarks-tree {
+  padding: 0 10px;
+}
+
+div#tab-folder span {
+  display: inline-block;
+  width: 10%;
+}
+
+div#bookmarks-folder {
+  padding: 10px;
+}
+
+div.bookmark-folder {
+  cursor: pointer;
+}
+
+div.bookmark-folder:hover {
+  background: #d1dcee;
+}
+
+div.bookmark-folder-selected {
+  background: #d1dcee;
+}
+
+div.bookmark-folder i {
+  margin-right: 5px;
+}
+
+div#footer {
+  position: sticky;
+  bottom: 0;
+  background: #e5e5e5;
+}
+
+div#footer-btns {
+  padding: 10px;
+}
+

@@ -1,0 +1,37 @@
+<html>
+  <link rel="stylesheet" href="index.css">
+  <link href="/fontawesome-free-6.6.0-web/css/fontawesome.css" rel="stylesheet" />
+  <link href="/fontawesome-free-6.6.0-web/css/regular.css" rel="stylesheet" />
+  <link href="/fontawesome-free-6.6.0-web/css/solid.css" rel="stylesheet" />
+  <body>
+    <div id="header">
+      <div id="tab">
+        <div id="tab-title">
+          <span>Name</span>
+          <input type="text" id="tab-title" name="tab-title" />
+        </div>
+        <div id="tab-folder">
+          <span>Folder</span>
+          <input type="text" id="tab-folder" name="tab-title" readonly />
+        </div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <div id="filter"><input type="text" id="filter" name="filter" placeholder="Type here to filter fodlers"/></div>
+
+      <div class="section-divider"></div>
+    </div>
+    <div id="bookmarks-tree"></div>
+    <div id="footer">
+      <div class="section-divider"></div>
+      <div id="footer-btns">
+        <button id="footer-btn-new-folder" type="button">New Folder</button>
+        <button id="footer-btn-cancel" type="button">Cancel</button>
+        <button id="footer-btn-save" type="button">Save</button>
+      </div>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>

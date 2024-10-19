@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "cbmm",
+  "description": "Base Level Extension",
+  "version": "1.0",
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": "cbmm-48.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["index.js"]
+    }
+  ],
+
+  "permissions": [
+    "bookmarks",
+    "activeTab"
+  ]
+}
