@@ -15,12 +15,7 @@ const buildBookmarksTree = (node, parent, level) => {
     return 0;
   }
 
-  const folderIcon = document.createElement("i"),
-        folder = document.createElement("div");
-
-  folderIcon.classList.add("fa-regular");
-  folderIcon.classList.add("fa-folder");
-  folder.appendChild(folderIcon);
+  const folder = document.createElement("div");
 
   folder.classList.add("bookmark-folder");
   folder.classList.add(`level-${level}`);
@@ -28,7 +23,8 @@ const buildBookmarksTree = (node, parent, level) => {
   folder.setAttribute("data-id", `${node.id}`);
   folder.setAttribute("data-parent-id", `${node.parentId}`);
   folder.setAttribute("data-level", `${level}`);
-  folder.innerText = node.title;
+  // folder.innerText = node.title;
+  folder.innerHTML = `<i class="fa-regular fa-folder"></i>${node.title}`
 
   parent.appendChild(folder);
 
