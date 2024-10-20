@@ -13,9 +13,9 @@
       "js": ["index.js"]
     }
   ],
-
   "permissions": [
     "bookmarks",
-    "activeTab"
+    "activeTab",
+    "storage"
   ]
 }

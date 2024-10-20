@@ -1,5 +1,12 @@
 const BASE_INDENT = 20; // indent in pixels
 let ACTIVE_TAB = {};
+const BODY = document.querySelector("body");
+
+showRecentFolders();
+
+document.querySelector("button#footer-btn-cancel").addEventListener("click", (event) => {
+  window.close();
+});
 
 const buildBookmarksTree = (node, parent, level) => {
   if (!node.hasOwnProperty("children")) {
@@ -40,13 +47,9 @@ chrome.bookmarks.getTree((nodes) => {
   console.log("nodes", nodes, typeof nodes);
   const divBookmarksTree = document.querySelector("div#bookmarks-tree");
 
-  let bookmarksTreeHTML = "";
   for (const child of nodes[0].children) {
     buildBookmarksTree(child, divBookmarksTree, 0);
   }
-
-
-  // divBookmarksTree.innerHTML = bookmarksTreeHTML;
 
   divBookmarksTree.addEventListener("click", (event) => {
     console.log("event.srcElement.tagName", event.srcElement.tagName);
@@ -65,6 +68,8 @@ chrome.bookmarks.getTree((nodes) => {
     element.classList.add("bookmark-folder-selected");
     document.querySelector("input#tab-folder").value = event.srcElement.innerText;
   });
+
+
 });
 
 
@@ -121,6 +126,7 @@ document.querySelector("button#footer-btn-new-folder").addEventListener("click",
 // Save tab to the bookmarks
 document.querySelector("button#footer-btn-save").addEventListener("click", (event) => {
   const selectedFolder = document.querySelector("div.bookmark-folder-selected");
+  const selectedFolderName = selectedFolder.innerText;
 
   if (!selectedFolder) {
     return;
@@ -144,6 +150,7 @@ document.querySelector("button#footer-btn-save").addEventListener("click", (even
           'title': ACTIVE_TAB.title,
           'url': ACTIVE_TAB.url,
         });
+        saveRecentFolders({name: selectedFolderName, id: selectedFolderId, parentId: selectedFolderParentId});
       },
     );
   } else {
@@ -152,8 +159,8 @@ document.querySelector("button#footer-btn-save").addEventListener("click", (even
       'parentId': selectedFolderId,
       'title': ACTIVE_TAB.title,
       'url': ACTIVE_TAB.url,
+    }, (newFolder) => {
+      saveRecentFolders({name: selectedFolderName, id: selectedFolderId, parentId: selectedFolderParentId});
     });
   }
-
-  window.close();
 });

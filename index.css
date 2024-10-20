@@ -1,10 +1,10 @@
 html {
   margin: 0;
   padding: 0;
-  width: 700px;
+  width: 400px;
   height: 600px;
   font-family: 'Courier New', monospace;
-  font-size: 20px;
+  font-size: 18px;
   color: #000;
   line-height: 1.5;
 }
@@ -19,11 +19,33 @@ div.section-divider {
   margin: 10px 0;
 }
 
+
+/* 
+|  HEADER
+|
+*/
+
 div#header {
   position: sticky;
   top: 0;
-  background: #e5e5e5;
+  background: #f6f5f9;
 }
+
+/* 
+|  RECENT FOLDERS
+|
+*/
+
+div#recent-folders {
+  padding: 10px;
+  background-color: #fff;
+}
+
+
+/* 
+|  FILTER SECTION
+|
+*/
 
 div#filter {
   padding: 10px;
@@ -108,10 +130,24 @@ div.bookmark-folder i {
 div#footer {
   position: sticky;
   bottom: 0;
-  background: #e5e5e5;
+  background: #f6f5f9;
 }
 
 div#footer-btns {
   padding: 10px;
 }
+
+div#footer-btns button {
+  cursor: pointer;
+  background: #7132f5;
+  padding: 5px 10px;
+  border-radius: 2px;
+  border: 1px solid #7132f5;
+  color: #fff;
+}
+
+div#footer-btns button:hover {
+  background: #9f71ff;
+}
+
 
