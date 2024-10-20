@@ -40,10 +40,6 @@ chrome.bookmarks.getTree((nodes) => {
   console.log("nodes", nodes, typeof nodes);
   const divBookmarksTree = document.querySelector("div#bookmarks-tree");
 
-  // const divTreeContainer = document.createElement("div");
-  // divTreeContainer.classList.add("bookmark-tree-container");
-  // divBookmarksTree.appendChild(divTreeContainer);
-
   let bookmarksTreeHTML = "";
   for (const child of nodes[0].children) {
     buildBookmarksTree(child, divBookmarksTree, 0);
@@ -65,8 +61,6 @@ chrome.bookmarks.getTree((nodes) => {
 
     console.log(event);
     const element = event.srcElement;
-
-
 
     element.classList.add("bookmark-folder-selected");
     document.querySelector("input#tab-folder").value = event.srcElement.innerText;
@@ -122,6 +116,7 @@ document.querySelector("button#footer-btn-new-folder").addEventListener("click",
   newDiv.appendChild(input);
   parentDiv.appendChild(newDiv);
 });
+
 
 // Save tab to the bookmarks
 document.querySelector("button#footer-btn-save").addEventListener("click", (event) => {
