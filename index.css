@@ -1,10 +1,15 @@
+@font-face {
+  font-family: "Roboto";
+  src: url("/Roboto/Roboto-Regular.ttf") format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
 html {
   margin: 0;
   padding: 0;
   width: 400px;
   height: 600px;
-  font-family: 'Courier New', monospace;
-  font-size: 18px;
   color: #000;
   line-height: 1.5;
 }
@@ -12,6 +17,10 @@ html {
 body {
   margin: 0;
   padding: 0;
+  font-family: "Roboto";
+  font-weight: 400;
+  font-style: normal;
+  font-size: 14px;
 }
 
 div.section-divider {
@@ -71,7 +80,7 @@ div#tab-folder {
 div#header {
   position: sticky;
   top: 0;
-  background: #f6f5f9;
+  background: #f6f6f7;
 }
 
 /* 
@@ -120,11 +129,11 @@ div.bookmark-folder {
 }
 
 div.bookmark-folder:hover {
-  background: #d1dcee;
+  background: #aeb2fc;
 }
 
 div.bookmark-folder-selected {
-  background: #d1dcee;
+  background: #aeb2fc ;
 }
 
 div.bookmark-folder i {
@@ -134,7 +143,7 @@ div.bookmark-folder i {
 div#footer {
   position: sticky;
   bottom: 0;
-  background: #f6f5f9;
+  background: #f6f6f7;
 }
 
 div#footer-btns {
@@ -144,15 +153,19 @@ div#footer-btns {
 
 div#footer-btns button {
   cursor: pointer;
-  background: #7132f5;
+  background: #7980ff;
   padding: 5px 10px;
   border-radius: 2px;
-  border: 1px solid #7132f5;
+  border: 1px solid #7980ff;
   color: #fff;
+  font-family: "Roboto";
+  font-weight: 400;
+  font-style: normal;
+  font-size: 14px;
 }
 
 div#footer-btns button:hover {
-  background: #9f71ff;
+  background: #bfc2f7;
 }
 
 
