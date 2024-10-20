@@ -2,6 +2,8 @@ const BASE_INDENT = 20; // indent in pixels
 let ACTIVE_TAB = {};
 const BODY = document.querySelector("body");
 
+document.querySelector("input#filter").focus();
+
 showRecentFolders();
 
 document.querySelector("button#footer-btn-cancel").addEventListener("click", (event) => {
