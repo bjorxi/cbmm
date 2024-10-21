@@ -133,15 +133,16 @@ document.querySelector("button#footer-btn-save").addEventListener("click", (even
   let selectedFolderId = selectedFolder.getAttribute("data-id");
   let selectedFolderParentId = selectedFolder.getAttribute("data-parent-id");
 
-  console.log("selectedFolder.children", selectedFolder.children, selectedFolder.children.length);
+  console.log("click::save", "selectedFolderId:", selectedFolderId, "selectedFolderParentId:", selectedFolderParentId);
+  console.log("click::save", "selectedFolder.children", selectedFolder.children, selectedFolder.children.length);
 
-  if (selectedFolder.children.length >= 1) {
+  if (selectedFolderId === null || selectedFolderId === undefined) {
     const selectedFolderInput = selectedFolder.children[0];
-    console.log("creating a folder", selectedFolderInput, selectedFolderInput.value)
+    console.log("click::save", "creating a folder", selectedFolderInput, selectedFolderInput.value)
     chrome.bookmarks.create(
       {"parentId": selectedFolderParentId, "title": selectedFolderInput.value},
       function(newFolder) {
-        console.log("newFolder", newFolder);
+        console.log("click::save", "Created a newFolder", newFolder);
         selectedFolderId = newFolder.id;
         chrome.bookmarks.create({
           'parentId': newFolder.id,
@@ -152,12 +153,13 @@ document.querySelector("button#footer-btn-save").addEventListener("click", (even
       },
     );
   } else {
-    console.log("selectedFolderId", selectedFolderId);
+    console.log("click::save", "selectedFolderId", selectedFolderId);
     chrome.bookmarks.create({
       'parentId': selectedFolderId,
       'title': ACTIVE_TAB.title,
       'url': ACTIVE_TAB.url,
     }, (newFolder) => {
+      console.log("click::save", "Saved a bookmark", newFolder);
       saveRecentFolders({name: selectedFolderName, id: selectedFolderId, parentId: selectedFolderParentId});
     });
   }
