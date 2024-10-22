@@ -14,32 +14,38 @@ $(document).ready(() => {
 
   // Show "Create a new folder" window
   document.querySelector("button#footer-btn-new-folder").addEventListener("click", (event) => {
-    const selectedFolder = document.querySelector("div.bookmark-folder-selected");
+    const selectedFolderDiv = $("div.bookmark-folder-selected");
+    
+    console.log("newFolderClick", "selectedFolderdiv", selectedFolderDiv);
 
-    if (!selectedFolder) {
+    if (selectedFolderDiv === null || selectedFolderDiv === undefined) {
       return;
     }
 
-    selectedFolder.classList.remove("bookmark-folder-selected");
+    const selectedFolderDivNextElement = selectedFolderDiv.next();
+    const selectedFolderDivId = parseInt(selectedFolderDiv.attr("data-id"));
+    const selectedFolderDivLevel = parseInt(selectedFolderDiv.attr("data-level"));
 
-    const selectedFolderId = parseInt(selectedFolder.getAttribute("data-id"));
-    const selectedFolderLevel = parseInt(selectedFolder.getAttribute("data-level"));
-    const parentDiv = document.querySelector(`div[data-parent-id="${selectedFolderId}"]`);
+    console.log("newFolderClick", "selectedFolderDivId", selectedFolderDivId, `div[data-parent-id="${selectedFolderDivId}"]`);
 
-    const newDiv = document.createElement("div"),
-          divLevel = selectedFolderLevel+1;
+    let bookmarkTreeContainerExists = true;
+    let containerDiv = selectedFolderDivNextElement;
+    if (selectedFolderDivNextElement.attr("class").indexOf("bookmark-tree-container") === -1) {
+      bookmarkTreeContainerExists = false;
+      containerDiv = $(`<div class="bookmark-tree-container" data-parent-id="${selectedFolderDivId}"></div>`);
+      selectedFolderDiv.after(containerDiv);
+    }
 
-    newDiv.classList.add("bookmark-folder-selected");
-    newDiv.setAttribute("style", `padding-left: ${BASE_INDENT*divLevel}`);
-    newDiv.setAttribute("data-parent-id", selectedFolderId);
+    console.log("newFolderClick", `selectedFolderDivNextElement.attr("class")`, selectedFolderDivNextElement.attr("class"));
+    selectedFolderDiv.removeClass("bookmark-folder-selected");
 
-    const input = document.createElement("input");
-    input.setAttribute("type", "text");
-    input.setAttribute("value", "New Folder");
-    input.setAttribute("data-level", selectedFolderLevel+1);
-
-    newDiv.appendChild(input);
-    parentDiv.appendChild(newDiv);
+    const newDivLevel = selectedFolderDivLevel+1;
+    const newDiv = $(`
+      <div class="bookmark-folder-selected" style="padding-left: ${BASE_INDENT*newDivLevel}px" data-parent-id="${selectedFolderDivId}">
+      <input type="text" value="New Folder" data-level="${newDivLevel}" />
+    </div`);
+    
+    containerDiv.append(newDiv);
   });
 
   $(document).on("input", "input#filter", (el) => {
