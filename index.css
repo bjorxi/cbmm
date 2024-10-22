@@ -149,6 +149,12 @@ div.bookmark-folder i {
   margin-right: 5px;
 }
 
+
+/* 
+|  FOOTER
+|
+*/
+
 div#footer {
   position: sticky;
   bottom: 0;
@@ -176,5 +182,3 @@ div#footer-btns button {
 div#footer-btns button:hover {
   background: #bfc2f7;
 }
-
-

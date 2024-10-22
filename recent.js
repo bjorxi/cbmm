@@ -32,6 +32,10 @@ const showRecentFolders = () => {
     }
 
     for (const folder of folders.reverse()) {
+      if (folder.name.length === 0) {
+        continue;
+      }
+
       if (!tabInputSet) {
         tabInput.value = folder.name;
         tabInputSet = true;
