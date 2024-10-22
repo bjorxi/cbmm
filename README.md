@@ -1,1 +1,2 @@
-# chrome-bookmark-adder
+# cbmm
+Chrome BookMarks Manager
