@@ -39,30 +39,6 @@ const showRecentFolders = () => {
         continue;
       }
 
-      // added code
-      //   let isSaved;
-      //   let newFolderList = [];
-      //   for (let [key, value] of BMT.map) {
-      //     if (key === folder.id) {
-      //       newFolderList.push(folder);
-      //     }
-      //     // return key === folder.id;
-      //   }
-
-      //   for (let newFolder of newFolderList) {
-      //     if (!tabInputSet) {
-      //       tabInput.value = newFolder.name;
-      //       tabInputSet = true;
-      //     }
-      //     const newDiv = document.createElement("div");
-      //     newDiv.innerText = newFolder.name;
-      //     newDiv.setAttribute("data-id", newFolder.id);
-      //     newDiv.setAttribute("data-paret-id", newFolder.parentId);
-      //     newDiv.classList.add("bookmark-folder");
-      //     container.appendChild(newDiv);
-      //   }
-      // }
-
       if (!tabInputSet) {
         tabInput.value = folder.name;
         tabInputSet = true;
@@ -79,7 +55,8 @@ const showRecentFolders = () => {
 
 const updateRecentsArray = (recents, folder) => {
   console.log("updateRecentsArray", recents, folder);
-  if (folder.name === recents.at(-1).name) {
+  // added code - recents.length &&
+  if (recents.length && folder.name === recents.at(-1).name) {
     console.log("Last saved folder is the same");
     return;
   }
@@ -129,23 +106,28 @@ const getRecentFolders = (callback) => {
       `getRecentFolders(${"recentFolders"})`,
       result["recentFolders"]
     );
-    // let folderList = [];
-    // result["recentFolders"].find((folder) => {
-    //   for (let [key, value] of BMT.map) {
-    //     if (key === folder.id) {
-    //       folderList.push(folder);
-    //     }
-    //   }
-    // });
 
-    // if (folderList.length !== result["recentFolders"].length) {
-    //   console.log("storage is update: ", folderList);
-    //   chrome.storage.local.set({ recentFolders: folderList });
-    // }
+    // added code start
+    let folderList = [];
+    result["recentFolders"].find((folder) => {
+      for (let [key, value] of BMT.map) {
+        if (key === folder.id) {
+          folderList.push(folder);
+        }
+      }
+    });
+
+    if (folderList.length !== result["recentFolders"].length) {
+      console.log("storage is update: ", folderList);
+      chrome.storage.local.set({ recentFolders: folderList });
+    }
+    // added code finish
 
     if (callback) {
-      callback(result["recentFolders"]);
-      // callback(folderList);
+      // change callback parameter
+
+      // callback(result["recentFolders"]);
+      callback(folderList);
     }
   });
 };
