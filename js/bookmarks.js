@@ -43,14 +43,23 @@ class BookmarksTree {
     return bmt;
   }
 
-  checkBookmarkExist(url) {
-    this.map.forEach((value, key, map) => {
-      if (value.url = url) {
-        return value;
+  /**
+   * Check if a bookmark with the given url does exist in the bookmark tree
+   * 
+   * @param {string} url url that is checked for a match
+   * @returns {array} the first value is bool: true if the bookmark does exist, otherwise false.
+   *          the second value is the bookmark data if a mathc is found, otherwise null
+   */
+  checkBookmarkUrlExist(url) {
+    console.log("BookmarksTree::checkBookmarkUrlExist", `url: ${url}`)
+    for (let [key, value] of this.map) {
+      if (value.url === url) {
+        console.log("BookmarksTree::checkBookmarkUrlExist", `${value.url} === ${url}}`)
+        return [true, value];
       }
-    });
+    }
 
-    return false;
+    return [false, null];
   }
 
   filter(text, nodeType) {
@@ -185,8 +194,15 @@ class BookmarksTree {
     );
   }
 
-  move() {
-
+  /**
+   * Moves a bookmark to a new folder
+   * 
+   * @param {*} id id of the bookmark that is being moved
+   * @param {*} destIdx - no idea what's this. it's optional
+   * @param {*} parentId new parent
+   */
+  move(id, destIdx, parentId) {
+    chrome.bookmarks.move(id, {index: destIdx, parentId});
   }
 
 } // BookmarksTree

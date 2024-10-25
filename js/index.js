@@ -101,15 +101,20 @@ $(document).ready(() => {
         selectedFolderParentId
       );
 
+      const bookmarkUrlExistOut = BMT.checkBookmarkUrlExist(ACTIVE_TAB.url);
+      const bookmarkExists = bookmarkUrlExistOut[0];
+      const existingBookmarkData = bookmarkUrlExistOut[1];
+      console.log("click::save", "bookmarkUrlExistOut", bookmarkUrlExistOut);
+      if (bookmarkExists === true) {
+        console.log("click::save", "bookmarExists. data", existingBookmarkData);
+        BMT.move(existingBookmarkData.id, null, selectedFolderId);
+        return;
+      }
+
       if (selectedFolderId === null || selectedFolderId === undefined) {
         const selectedFolderInput = selectedFolder.children()[0];
-        console.log(
-          "click::save",
-          "creating a folder",
-          selectedFolderInput,
-          selectedFolderInput.value
-        );
-        
+        console.log("click::save", "creating a folder", selectedFolderInput, selectedFolderInput.value);
+
         BMT.createFolder(selectedFolderParentId, selectedFolderInput.value, (newFolder) => {
           chrome.bookmarks.create({
             parentId: newFolder.id,
