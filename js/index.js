@@ -1,12 +1,12 @@
 $(document).ready(() => {
-  console.log("Documet is ready!");
-  const BODY = document.querySelector("body");
+  const main = () => {
+    $("input#filter").focus();
+    getActiveTabInfo();
+    fetchBookmarksAndDisplay();
+    showRecentFolders();
+  }
 
-  $("input#filter").focus();
-
-  getActiveTabInfo();
-  fetchBookmarksAndDisplay();
-  showRecentFolders();
+  main();
 
   document
     .querySelector("button#footer-btn-cancel")
@@ -15,11 +15,9 @@ $(document).ready(() => {
     });
 
   // Show "Create a new folder" window
-  document
-    .querySelector("button#footer-btn-new-folder")
-    .addEventListener("click", (event) => {
-      const selectedFolderDiv = $("div.bookmark-folder-selected");
 
+  $(document).on("click", "button#footer-btn-new-folder", (event) => {
+      const selectedFolderDiv = $("div.bookmark-folder-selected");
       console.log("newFolderClick", "selectedFolderdiv", selectedFolderDiv);
 
       if (selectedFolderDiv === null || selectedFolderDiv === undefined) {
@@ -41,11 +39,7 @@ $(document).ready(() => {
 
       let bookmarkTreeContainerExists = true;
       let containerDiv = selectedFolderDivNextElement;
-      if (
-        selectedFolderDivNextElement
-          .attr("class")
-          .indexOf("bookmark-tree-container") === -1
-      ) {
+      if (selectedFolderDivNextElement.attr("class").indexOf("bookmark-tree-container") === -1) {
         bookmarkTreeContainerExists = false;
         containerDiv = $(
           `<div class="bookmark-tree-container" data-parent-id="${selectedFolderDivId}"></div>`
@@ -88,21 +82,16 @@ $(document).ready(() => {
   });
 
   // Save tab to the bookmarks
-  document
-    .querySelector("button#footer-btn-save")
-    .addEventListener("click", (event) => {
-      const selectedFolder = document.querySelector(
-        "div.bookmark-folder-selected"
-      );
+  $(document).on("click", "button#footer-btn-save", (event) => {
+      const selectedFolder = $("div.bookmark-folder-selected");
       const selectedFolderName = selectedFolder.innerText;
 
       if (!selectedFolder) {
         return;
       }
 
-      let selectedFolderId = selectedFolder.getAttribute("data-id");
-      let selectedFolderParentId =
-        selectedFolder.getAttribute("data-parent-id");
+      let selectedFolderId = selectedFolder.attr("data-id");
+      let selectedFolderParentId = selectedFolder.attr("data-parent-id");
 
       console.log(
         "click::save",
@@ -111,58 +100,38 @@ $(document).ready(() => {
         "selectedFolderParentId:",
         selectedFolderParentId
       );
-      console.log(
-        "click::save",
-        "selectedFolder.children",
-        selectedFolder.children,
-        selectedFolder.children.length
-      );
 
       if (selectedFolderId === null || selectedFolderId === undefined) {
-        const selectedFolderInput = selectedFolder.children[0];
+        const selectedFolderInput = selectedFolder.children()[0];
         console.log(
           "click::save",
           "creating a folder",
           selectedFolderInput,
           selectedFolderInput.value
         );
-        chrome.bookmarks.create(
-          {
-            parentId: selectedFolderParentId,
-            title: selectedFolderInput.value,
-          },
-          function (newFolder) {
-            console.log("click::save", "Created a newFolder", newFolder);
-            selectedFolderId = newFolder.id;
-            chrome.bookmarks.create({
-              parentId: newFolder.id,
-              title: ACTIVE_TAB.title,
-              url: ACTIVE_TAB.url,
-            });
+        
+        BMT.createFolder(selectedFolderParentId, selectedFolderInput.value, (newFolder) => {
+          chrome.bookmarks.create({
+            parentId: newFolder.id,
+            title: ACTIVE_TAB.title,
+            url: ACTIVE_TAB.url,
+          }, () => {
             saveRecentFolders({
               name: selectedFolderInput.value,
               id: selectedFolderId,
               parentId: selectedFolderParentId,
             });
-          }
-        );
+          });
+        });
       } else {
         console.log("click::save", "selectedFolderId", selectedFolderId);
-        chrome.bookmarks.create(
-          {
-            parentId: selectedFolderId,
-            title: ACTIVE_TAB.title,
-            url: ACTIVE_TAB.url,
-          },
-          (newFolder) => {
-            console.log("click::save", "Saved a bookmark", newFolder);
-            saveRecentFolders({
-              name: selectedFolderName,
-              id: selectedFolderId,
-              parentId: selectedFolderParentId,
-            });
-          }
-        );
+        BMT.create(selectedFolderId, ACTIVE_TAB.title, ACTIVE_TAB.url, (newFolder) => {
+          saveRecentFolders({
+            name: selectedFolderName,
+            id: selectedFolderId,
+            parentId: selectedFolderParentId,
+          });
+        });        
       }
     });
 });

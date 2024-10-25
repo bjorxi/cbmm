@@ -35,7 +35,7 @@ const showRecentFolders = () => {
     }
 
     for (const folder of folders.reverse()) {
-      if (folder.name.length === 0) {
+      if (folder.name === undefined || folder.name === null || folder.name.length === 0) {
         continue;
       }
 

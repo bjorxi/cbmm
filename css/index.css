@@ -12,7 +12,7 @@ html {
   padding: 0;
   width: 400px;
   height: 600px;
-  color: #000;
+  color: #000; /* #16323f */
   line-height: 1.5;
   overflow: hidden; /* Hide vertical scrollbar */
 }

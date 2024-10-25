@@ -36,11 +36,21 @@ class BookmarksTree {
       } else {
         data.type = "page";
       }
-      
+
       data.display = true;
       bmt.map.set(data.id, data);
     }
     return bmt;
+  }
+
+  checkBookmarkExist(url) {
+    this.map.forEach((value, key, map) => {
+      if (value.url = url) {
+        return value;
+      }
+    });
+
+    return false;
   }
 
   filter(text, nodeType) {
@@ -49,7 +59,7 @@ class BookmarksTree {
       if (node === null || node === undefined) {
         return;
       }
-      
+
       node.display = true;
 
       if (node.hasOwnProperty("parentId")) {
@@ -102,7 +112,7 @@ class BookmarksTree {
 
       if (node.type === "folder" && node.display === true) {
         const folder = document.createElement("div");
-  
+
         folder.classList.add("bookmark-folder");
         folder.classList.add(`level-${node.level}`);
         folder.setAttribute("style", `padding-left:${BASE_INDENT*node.level}px;`);
@@ -110,7 +120,7 @@ class BookmarksTree {
         folder.setAttribute("data-parent-id", `${node.parentId}`);
         folder.setAttribute("data-level", `${node.level}`);
         folder.innerHTML = `<i class="fa-regular fa-folder"></i>${node.title}`
-      
+
         parent.appendChild(folder);
 
         if (node.children.length > 0) {
@@ -118,7 +128,7 @@ class BookmarksTree {
           divTreeContainer.classList.add("bookmark-tree-container");
           divTreeContainer.setAttribute("data-parent-id", node.id);
           parent.appendChild(divTreeContainer);
-          
+
           for (const child of node.children) {
             nodesToDiscover.push([divTreeContainer, child]);
           }
@@ -128,7 +138,58 @@ class BookmarksTree {
 
     return firstParent;
   }
-}
+
+  /**
+   * Adds a new bookmark 
+   * 
+   * @param {integer} parentId  parent id for the saved bookmark
+   * @param {string} title  title/name of the saved bookmark
+   * @param {string} url  url of the saved bookmark
+   * @param {} callback callback that is called once the bookmark is saved
+   */
+  create(parentId, title, url, callback) {
+    chrome.bookmarks.create(
+      {
+        parentId: parentId,
+        title: title,
+        url: url,
+      },
+      (newFolder) => {
+        console.log("BookmarksTree::create", "Saved a bookmark", newFolder);
+        if (typeof(callback)==='function') {
+          callback(newFolder);
+        }
+      }
+    );
+  }
+
+  /**
+   * Creates a new folder in the bookmarks tree
+   * 
+   * @param {integer} parentId id of the parent's folder. under this id the new folder will be created
+   * @param {string} title title/name of the new folder
+   * @param {*} callback 
+   */
+  createFolder(parentId, title, callback) {
+    chrome.bookmarks.create(
+      {
+        parentId: parentId,
+        title: title,
+      },
+      (newFolder) => {
+        console.log("BookmarkTree::createFolder", "Created a newFolder", newFolder);
+        if (typeof(callback)==='function') {
+          callback(newFolder);
+        }
+      }
+    );
+  }
+
+  move() {
+
+  }
+
+} // BookmarksTree
 
 const fetchBookmarksAndDisplay = () => {
   // Fetch current bookmarks
